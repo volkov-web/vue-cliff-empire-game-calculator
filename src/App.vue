@@ -69,33 +69,8 @@
         Step 2. Select building to produce resource.
     </div>
     <div class="step2-wrapper-selectors">
-        <div class="step2-header">Choose energy production</div>
-        <div id="selecter_energy" class="step2-select selector_switch_active">
-            <div id="selecter_solar_panel" class="step2-wrapper active selector_switch_active_item">
-                <div class="step2-img-wrapper"><img ondragstart = "return false;" class="step2-img" src="./img/solar_panel.jpg"></div>
-                <div class="step2-img-description">Solar panel</div>
-            </div>
-            <div id="selecter_wind_turbine" class="step2-wrapper selector_switch_active_item">
-                <div class="step2-img-wrapper"><img ondragstart = "return false;" class="step2-img" src="./img/wind_turbine.jpg"></div>
-                <div class="step2-img-description">Wind turbine</div>
-            </div>
-            <div id="selecter_nuclear_power" class="step2-wrapper selector_switch_active_item">
-                <div class="step2-img-wrapper"><img ondragstart = "return false;" class="step2-img" src="./img/nuclear_power.jpg"></div>
-                <div class="step2-img-description">Nuclear power</div>
-            </div>
-        </div>
-
-        <div class="step2-header">Choose food production</div>
-        <div id="selecter_food" class="step2-select selector_switch_active">
-            <div id="selecter_open_farm" class="step2-wrapper active selector_switch_active_item">
-                <div class="step2-img-wrapper"><img ondragstart = "return false;" class="step2-img" src="./img/open_farm.jpg"></div>
-                <div class="step2-img-description">Open farm</div>
-            </div>
-            <div id="selecter_indoor_farm" class="step2-wrapper selector_switch_active_item">
-                <div class="step2-img-wrapper"><img ondragstart = "return false;" class="step2-img" src="./img/indoor_farm.jpg"></div>
-                <div class="step2-img-description">Indoor farm</div>
-            </div>
-        </div>
+        <CustomSelector selectorID="selecter_energy" headerText="Choose energy production" :objItemSelector=" objSelecterEneregy "></CustomSelector>
+        <CustomSelector selectorID="selecter_food" headerText="Choose food production" :objItemSelector=" objSelecterFood "></CustomSelector>
     </div>
 
     <div class="step3">
@@ -119,6 +94,27 @@
 </template>
 
 <script>
+import CustomSelector from "./components/CustomSelector.vue"
+
+export default {
+    name: "App",
+    components: {
+        CustomSelector
+    },
+    data(){
+        return {
+            objSelecterEneregy: [
+                { id: 'selecter_solar_panel', imgName: 'solar_panel.jpg', imgDescription: 'Solar Panel'},
+                { id: 'selecter_wind_turbine', imgName: 'wind_turbine.jpg', imgDescription: 'Wind Turbine'},
+                { id: 'selecter_nuclear_power', imgName: 'nuclear_power.jpg', imgDescription: 'Nuclear Power'},
+            ],
+            objSelecterFood: [
+                { id: 'selecter_open_farm', imgName: 'open_farm.jpg', imgDescription: 'Open farm'},
+                { id: 'selecter_indoor_farm', imgName: 'indoor_farm.jpg', imgDescription: 'Indoor farm'},
+            ],
+        }
+    }
+}
 
 function everythingNumbersCorrect(numbers){
     for(let i = 0; i < numbers.length; i++){
@@ -241,16 +237,6 @@ let was = 0;
 document.onreadystatechange = () => {
     if (document.readyState == "complete" && was == 0) {
         was = 1;
-        let selector_switch_active_array = document.querySelectorAll(".selector_switch_active");
-        for (let i = 0; i < selector_switch_active_array.length; i++) {
-            selector_switch_active_array[i].addEventListener("click", (event)=>{
-                let closest = event.target.closest(".selector_switch_active_item");
-                if(closest == null) return;
-                if(event.currentTarget.contains(closest) == false) return;
-                event.currentTarget.querySelector(".active").classList.remove("active");
-                event.target.closest(".selector_switch_active_item").classList.add("active");
-            });
-        }
 
         let calculate_button = document.querySelector("#calculate_button");
         calculate_button.addEventListener("click", mainCalculate);
@@ -311,7 +297,7 @@ document.onreadystatechange = () => {
 .link:hover {
     color: white;
     text-decoration: none;
-    opacity: 70%
+    opacity: 0.7;
 }
 
 .step1 {
@@ -393,11 +379,11 @@ document.onreadystatechange = () => {
     border-radius: 0.5em;
     overflow: hidden;
     color: rgb(167, 165, 165);
-    opacity: 70%;
+    opacity: 0.7;
 }
 
 .step2-wrapper:hover {
-    opacity: 85% !important;
+    opacity: 0.85 !important;
     cursor: pointer;
 }
 
@@ -420,7 +406,7 @@ document.onreadystatechange = () => {
 .step2-wrapper.active {
     color: white;
     border: 2px solid #7d8083;
-    opacity: 100%;
+    opacity: 1;
 }
 
 .step2-wrapper {
